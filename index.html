@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador Interactivo: Google I/O 2025 AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Slate & Blue Harmony -->
+    <!-- Application Structure Plan: A thematic, dashboard-like single-page application. The structure prioritizes user-driven exploration over a linear report format. It starts with a high-level visual overview (the 'Visión General' chart) that also acts as an interactive index. Subsequent sections are organized by theme (IA en Productos, Nuevas Herramientas, Para Desarrolladores, IA Responsable), accessible via a sticky navigation bar. This design allows users to quickly grasp the key takeaways and dive into topics of interest in any order, using interactive cards and diagrams to reveal information progressively. This approach was chosen to make the dense information from the report more digestible and engaging for a tech-savvy audience. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Key AI announcement areas -> Goal: Compare/Organize -> Viz/Method: Interactive Bar Chart -> Interaction: Click bar to scroll to section -> Justification: Provides an immediate visual summary and acts as a primary navigation tool. (Library: Chart.js)
+        - Report Info: AI in core products (Search, Workspace, Android) -> Goal: Organize/Inform -> Viz/Method: Interactive HTML Cards -> Interaction: Click to expand and reveal details -> Justification: Keeps the UI clean and allows users to focus on one product at a time without overwhelming them. (Method: HTML/JS)
+        - Report Info: Developer workflow (AI Studio, Gemini API) -> Goal: Organize/Inform -> Viz/Method: HTML/CSS Flow Diagram -> Interaction: Hover to show tooltips (conceptual) -> Justification: Visualizes a process more effectively than text alone. (Method: HTML/CSS)
+        - Report Info: Responsible AI principles -> Goal: Inform -> Viz/Method: Two-column text layout -> Interaction: None -> Justification: Simple, clear presentation for important, non-interactive information. (Method: HTML)
+        All choices adhere to the NO SVG/Mermaid constraint. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 40vh;
+            max-height: 400px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .nav-item {
+            transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
+        }
+        .card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .detail-card {
+            transition: opacity 0.3s ease-in-out, max-height 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <h1 class="text-xl md:text-2xl font-bold text-slate-900">Google I/O 2025: IA</h1>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#overview" class="nav-item text-slate-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600">Visión General</a>
+                    <a href="#products" class="nav-item text-slate-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600">Productos</a>
+                    <a href="#tools" class="nav-item text-slate-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600">Herramientas</a>
+                    <a href="#developers" class="nav-item text-slate-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600">Futuro</a>
+                    <a href="#responsible" class="nav-item text-slate-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600">IA Responsable</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-button" class="text-slate-800 focus:outline-none">
+                        <span class="text-2xl">☰</span>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden py-4">
+                <a href="#overview" class="block py-2 px-4 text-sm text-slate-600 hover:bg-blue-50 rounded-md">Visión General</a>
+                <a href="#products" class="block py-2 px-4 text-sm text-slate-600 hover:bg-blue-50 rounded-md">Productos</a>
+                <a href="#tools" class="block py-2 px-4 text-sm text-slate-600 hover:bg-blue-50 rounded-md">Herramientas</a>
+                <a href="#developers" class="block py-2 px-4 text-sm text-slate-600 hover:bg-blue-50 rounded-md">Futuro</a>
+                <a href="#responsible" class="block py-2 px-4 text-sm text-slate-600 hover:bg-blue-50 rounded-md">IA Responsable</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+        <section id="overview" class="text-center mb-16 md:mb-24 scroll-mt-20">
+            <h2 class="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4">Un Vistazo al Futuro de la IA</h2>
+            <p class="max-w-3xl mx-auto text-slate-600 text-lg mb-8">
+                La Conferencia Google I/O 2025 reafirmó el compromiso de Google con la innovación, centrando su visión en una "IA universalmente útil". Esta sección ofrece un resumen visual de las áreas clave impactadas por los nuevos anuncios de IA. Haz clic en una barra del gráfico para explorar la sección correspondiente y descubrir los avances más significativos.
+            </p>
+            <div class="bg-white rounded-xl shadow-lg p-4 md:p-8">
+                <h3 class="text-xl font-bold mb-4 text-slate-800">Áreas de Impacto Anunciadas</h3>
+                <div class="chart-container">
+                    <canvas id="impactChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="products" class="mb-16 md:mb-24 scroll-mt-20">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-900 mb-4">IA Integrada en Productos Centrales</h2>
+            <p class="max-w-3xl mx-auto text-slate-600 text-center text-lg mb-12">
+                Descubre cómo Google está tejiendo la inteligencia artificial directamente en las herramientas que usamos a diario. Desde la búsqueda de información hasta la productividad en el trabajo y la personalización de tu dispositivo móvil, la IA está transformando la experiencia del usuario. Selecciona una tarjeta para ver los detalles.
+            </p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card-container" data-target="search-details">
+                    <div class="card bg-white rounded-xl shadow-lg p-6 cursor-pointer border-2 border-transparent hover:border-blue-500">
+                        <div class="flex items-center mb-4">
+                            <span class="text-3xl mr-4">🔍</span>
+                            <h3 class="text-2xl font-bold text-slate-800">Búsqueda</h3>
+                        </div>
+                        <p class="text-slate-600">IA proactiva y contextual para respuestas más ricas y personalizadas.</p>
+                    </div>
+                    <div id="search-details" class="detail-card bg-white rounded-b-xl p-6 overflow-hidden max-h-0 opacity-0 -mt-2">
+                        <h4 class="font-bold text-lg mb-2">Búsqueda Mejorada con IA Contextual</h4>
+                        <p class="text-slate-600">La Búsqueda de Google ahora permite hacer preguntas más complejas y recibe resúmenes generados por IA que sintetizan información de múltiples fuentes, incluyendo visuales y auditivas, para proporcionar respuestas más completas y adaptadas al usuario.</p>
+                    </div>
+                </div>
+
+                <div class="card-container" data-target="workspace-details">
+                    <div class="card bg-white rounded-xl shadow-lg p-6 cursor-pointer border-2 border-transparent hover:border-teal-500">
+                        <div class="flex items-center mb-4">
+                            <span class="text-3xl mr-4">💼</span>
+                            <h3 class="text-2xl font-bold text-slate-800">Workspace</h3>
+                        </div>
+                        <p class="text-slate-600">Asistentes inteligentes para automatizar flujos de trabajo y aumentar la productividad.</p>
+                    </div>
+                     <div id="workspace-details" class="detail-card bg-white rounded-b-xl p-6 overflow-hidden max-h-0 opacity-0 -mt-2">
+                        <h4 class="font-bold text-lg mb-2">Workspace AI Co-Pilot</h4>
+                        <p class="text-slate-600">Este asistente no solo ayuda a redactar correos o generar diapositivas, sino que también automatiza flujos de trabajo complejos, analiza datos en hojas de cálculo para extraer tendencias y genera informes ejecutivos en tiempo real, actuando como un gestor de proyectos proactivo.</p>
+                    </div>
+                </div>
+
+                <div class="card-container" data-target="android-details">
+                    <div class="card bg-white rounded-xl shadow-lg p-6 cursor-pointer border-2 border-transparent hover:border-indigo-500">
+                        <div class="flex items-center mb-4">
+                            <span class="text-3xl mr-4">📱</span>
+                            <h3 class="text-2xl font-bold text-slate-800">Android</h3>
+                        </div>
+                        <p class="text-slate-600">IA Adaptativa para optimizar el rendimiento y la personalización del dispositivo.</p>
+                    </div>
+                    <div id="android-details" class="detail-card bg-white rounded-b-xl p-6 overflow-hidden max-h-0 opacity-0 -mt-2">
+                        <h4 class="font-bold text-lg mb-2">Android con IA Adaptativa</h4>
+                        <p class="text-slate-600">Las nuevas características se centran en la personalización y la eficiencia energética. La "IA Adaptativa" aprende los patrones de uso para optimizar la batería, ajustar la configuración del dispositivo automáticamente y ofrecer sugerencias proactivas según el contexto y las preferencias del usuario.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tools" class="mb-16 md:mb-24 scroll-mt-20">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-900 mb-4">Nuevas Herramientas Especializadas</h2>
+            <p class="max-w-3xl mx-auto text-slate-600 text-center text-lg mb-12">
+               Google no solo ha mejorado sus productos existentes, sino que también ha lanzado nuevas suites y proyectos de IA enfocados en áreas específicas como la creación de contenido, la ciberseguridad y la salud. Estas herramientas aprovechan el poder de Gemini Ultra 2.0 para ofrecer capacidades sin precedentes.
+            </p>
+            <div class="space-y-8">
+                <div class="card bg-white rounded-xl shadow-lg p-6 md:p-8 flex flex-col md:flex-row items-center">
+                    <span class="text-5xl md:mr-8 mb-4 md:mb-0">🎨</span>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-2">Creator Suite AI</h3>
+                        <p class="text-slate-600">Una suite para la creación de contenido que aprovecha Gemini Ultra 2.0. Permite a los usuarios generar borradores de video a partir de descripciones de texto, crear ilustraciones complejas y componer música que se adapta dinámicamente al estado de ánimo o al ritmo de un video, todo con una intervención mínima.</p>
+                    </div>
+                </div>
+                 <div class="card bg-white rounded-xl shadow-lg p-6 md:p-8 flex flex-col md:flex-row items-center">
+                    <span class="text-5xl md:mr-8 mb-4 md:mb-0">🛡️</span>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-2">Project Guardian</h3>
+                        <p class="text-slate-600">Una iniciativa de ciberseguridad que utiliza modelos de IA para detectar patrones anómalos en redes y dispositivos a escala masiva, identificando y neutralizando amenazas potenciales como phishing y malware antes de que puedan causar daño.</p>
+                    </div>
+                </div>
+                 <div class="card bg-white rounded-xl shadow-lg p-6 md:p-8 flex flex-col md:flex-row items-center">
+                    <span class="text-5xl md:mr-8 mb-4 md:mb-0">❤️</span>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-2">HealthAI</h3>
+                        <p class="text-slate-600">Una serie de herramientas de IA para profesionales de la salud y usuarios. Incluyen asistentes de diagnóstico que analizan imágenes médicas y datos de pacientes, y herramientas de bienestar que ofrecen planes de ejercicio y nutrición personalizados.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="developers" class="mb-16 md:mb-24 scroll-mt-20">
+             <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-900 mb-4">El Futuro es Desarrollable</h2>
+            <p class="max-w-3xl mx-auto text-slate-600 text-center text-lg mb-12">
+                Esta sección está dedicada a los creadores, desarrolladores e innovadores. Google ha lanzado potentes herramientas y APIs para que cualquiera pueda construir la próxima generación de aplicaciones de IA. Además, se exploran conceptos clave como la IA en el borde (Edge AI) que definirán la tecnología del mañana.
+            </p>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-4">Herramientas para Desarrolladores</h3>
+                    <p class="text-slate-600 mb-4">Google anunció <strong class="text-slate-900">AI Studio Pro</strong>, una versión mejorada de su entorno de desarrollo, que ofrece herramientas más robustas para la depuración, el escalado y la implementación de modelos de IA.</p>
+                    <p class="text-slate-600">Junto a esto, se lanzaron nuevas <strong class="text-slate-900">APIs de Gemini</strong> que permiten a los desarrolladores integrar las capacidades avanzadas del modelo (multimodalidad, razonamiento complejo) en sus propias aplicaciones con mayor facilidad.</p>
+                </div>
+                 <div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-4">IA en el Borde (Edge AI)</h3>
+                    <p class="text-slate-600">Se destacaron avances significativos en la ejecución de modelos de IA directamente en los dispositivos, lo que reduce la latencia y la dependencia de la nube. Esto impulsa las capacidades de IA en teléfonos Pixel, dispositivos Nest y otros dispositivos IoT, permitiendo una mayor privacidad y una respuesta en tiempo real.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="responsible" class="scroll-mt-20">
+             <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-900 mb-4">Construyendo una IA Responsable</h2>
+             <p class="max-w-3xl mx-auto text-slate-600 text-center text-lg mb-12">
+                A medida que la IA se vuelve más poderosa, su desarrollo ético es más crucial que nunca. Google reafirmó su compromiso con la transparencia y la equidad, presentando nuevas herramientas y marcos diseñados para ayudar a los desarrolladores a construir sistemas de IA que sean justos, comprensibles y seguros para todos.
+            </p>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 grid md:grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="border-l-4 border-blue-500 pl-6">
+                     <h3 class="text-2xl font-bold text-slate-800 mb-2">Explainable AI (XAI)</h3>
+                     <p class="text-slate-600">Se presentaron nuevas herramientas de XAI que ayudan a los desarrolladores y usuarios a entender mejor cómo los modelos de IA llegan a sus conclusiones. Fomentar la transparencia es clave para generar confianza y permitir una depuración más efectiva de los sistemas.</p>
+                </div>
+                <div class="border-l-4 border-teal-500 pl-6">
+                     <h3 class="text-2xl font-bold text-slate-800 mb-2">Fairness Indicators</h3>
+                     <p class="text-slate-600">Google lanzó un nuevo marco de "Indicadores de Equidad" para ayudar a identificar y mitigar sesgos en los conjuntos de datos y en los modelos de IA. El objetivo es asegurar que los beneficios de la IA se distribuyan de manera equitativa y no perpetúen prejuicios existentes.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center py-8 text-slate-500">
+        <p>Aplicación interactiva creada para resumir los anuncios de IA de Google I/O 2025.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const impactChartCanvas = document.getElementById('impactChart');
+            if (impactChartCanvas) {
+                const ctx = impactChartCanvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Productividad (Workspace)', 'Búsqueda e Información', 'Creatividad y Contenido', 'Seguridad y Confianza', 'Salud y Bienestar', 'Desarrollo y Ecosistema'],
+                        datasets: [{
+                            label: 'Nivel de Impacto Anunciado',
+                            data: [90, 88, 85, 82, 78, 92],
+                            backgroundColor: [
+                                'rgba(59, 130, 246, 0.7)',
+                                'rgba(16, 185, 129, 0.7)',
+                                'rgba(139, 92, 246, 0.7)',
+                                'rgba(239, 68, 68, 0.7)',
+                                'rgba(236, 72, 153, 0.7)',
+                                'rgba(249, 115, 22, 0.7)'
+                            ],
+                            borderColor: [
+                                'rgba(59, 130, 246, 1)',
+                                'rgba(16, 185, 129, 1)',
+                                'rgba(139, 92, 246, 1)',
+                                'rgba(239, 68, 68, 1)',
+                                'rgba(236, 72, 153, 1)',
+                                'rgba(249, 115, 22, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(203, 213, 225, 0.3)'
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `Impacto: ${context.raw}`;
+                                    }
+                                }
+                            }
+                        },
+                        onClick: (e, elements) => {
+                            if (elements.length > 0) {
+                                const index = elements[0].index;
+                                const sections = ['products', 'products', 'tools', 'responsible', 'tools', 'developers'];
+                                const sectionId = sections[index];
+                                const section = document.getElementById(sectionId);
+                                if (section) {
+                                    section.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            const cardContainers = document.querySelectorAll('.card-container');
+            cardContainers.forEach(container => {
+                const card = container.querySelector('.card');
+                const detail = document.getElementById(container.dataset.target);
+                
+                card.addEventListener('click', () => {
+                    const isOpening = detail.classList.contains('max-h-0');
+
+                    document.querySelectorAll('.detail-card').forEach(d => {
+                        d.classList.add('max-h-0', 'opacity-0');
+                        d.classList.remove('mt-4', 'p-6');
+                    });
+                    
+                    if (isOpening) {
+                        detail.classList.remove('max-h-0', 'opacity-0');
+                        detail.classList.add('mt-4', 'p-6');
+                        detail.style.maxHeight = detail.scrollHeight + "px";
+                    } else {
+                        detail.style.maxHeight = null;
+                    }
+                });
+            });
+
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
